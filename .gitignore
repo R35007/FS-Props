@@ -1,0 +1,14 @@
+# ignore vscode settings
+.vscode
+
+# ignore node modules
+node_modules
+
+# ignore the .js files
+*.js
+
+# ignore definition files
+*.d.ts
+
+# ignore package-lock.json
+package-lock.json
