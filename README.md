@@ -43,7 +43,7 @@ fs-props "/path/to/file/or/folder" "/path/to/save/properties.json"
 
 ### Sample Folder Properties
 
-```json
+```jsonc
 {
   "fileName": "FS Props",
   "baseName": "FS Props",
