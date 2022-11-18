@@ -1,6 +1,6 @@
 {
   "name": "fs-props",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get fs stats, image dimensions, audio and video metada ",
   "main": "index.js",
   "types": "index.d.ts",
@@ -37,21 +37,17 @@
     "@types/humanize-duration": "^3.27.1",
     "@types/image-size": "^0.8.0",
     "@types/mime": "^3.0.1",
+    "@types/moment": "^2.13.0",
     "@types/node": "^14.18.33",
-    "@typescript-eslint/eslint-plugin": "^5.16.0",
-    "@typescript-eslint/parser": "^5.16.0",
     "eslint": "^8.11.0",
     "typescript": "^4.5.5"
   },
   "dependencies": {
     "@ffprobe-installer/ffprobe": "^1.4.1",
-    "@types/moment": "^2.13.0",
-    "durable-json-lint": "^0.0.3",
     "exifreader": "^4.8.1",
     "fluent-ffmpeg": "^2.1.2",
     "humanize-duration": "^3.27.3",
     "image-size": "^1.0.2",
-    "jsdom": "^20.0.2",
     "mime": "^3.0.0",
     "moment": "^2.29.4"
   }
