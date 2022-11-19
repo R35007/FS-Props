@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import { getStats, getImageDetails, getAudioDetails, getVideoDetails } from './utils';
 
 export type Properties = Promise<
