@@ -1,23 +1,43 @@
+## v2.0.0
+
+- Exported more methods.
+
+  ```js
+  const fp = require("fs-props");
+
+  fp.stats(""); // To get only folder or file stats
+  fp.deepStats(""); // To get a list of all nested folder and file stats
+  fp.imageProperties(""); // Returns only image properties
+  fp.audioProperties(""); // Returns only audio properties
+  fp.videoProperties(""); // Returns only video properties
+
+  fp.properties(""); // Returns stats, audio, video, image properties
+  ```
+
 ## v1.1.1
 
- - Added `@types/fluent-ffmpeg` to dev dependencies.
+- Added `@types/fluent-ffmpeg` to dev dependencies.
 
 ## v1.1.0
 
- - Added more types definitions.
+- Added more types definitions.
 
 ## v1.0.3
 
- - Package import issue fixed.
+- Package import issue fixed.
 
 ## v1.0.2
 
- - readme update
+- readme update
 
 ## v1.0.1
 
- - removed unwanted packages
+- removed unwanted packages
 
 ## v1.0.0
 
 initial release.
+
+```
+
+```

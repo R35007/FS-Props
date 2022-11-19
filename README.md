@@ -19,18 +19,28 @@ FS-Props is a Javascript library that helps to parse image, audio, video or any 
 ### JS module:
 
 ```js
-const fsProps = require("fs-props");
+const fp = require("fs-props");
 
-fsProps.properties("/path/to/file/or/folder").then((properties) => {
+fp.properties("/path/to/file/or/folder").then((properties) => {
   console.log(properties);
 });
 
 // using async and await
 
 (async () => {
-  const properties = await fsProps.properties("/path/to/file/or/folder");
+  const properties = await fp.properties("/path/to/file/or/folder");
   console.log(properties);
 })();
+
+// All available promise methods
+
+fp.stats(""); // To get only folder or file stats
+fp.deepStats(""); // To get a list of all nested folder and file stats
+fp.imageProperties(""); // Returns only image properties
+fp.audioProperties(""); // Returns only audio properties
+fp.videoProperties(""); // Returns only video properties
+
+fp.properties(""); // Returns stats, audio, video, image properties
 ```
 
 ### CLI:
