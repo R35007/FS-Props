@@ -3,3 +3,6 @@
 
 # include the .d.ts files
 !*.d.ts
+
+# ignore src folder
+src
