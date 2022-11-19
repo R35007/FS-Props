@@ -1,6 +1,6 @@
 {
   "name": "fs-props",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Get fs stats, image dimensions, audio and video metada ",
   "main": "index.js",
   "types": "index.d.ts",

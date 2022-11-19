@@ -1,3 +1,7 @@
+## v2.0.1
+
+- Package build issue fix
+
 ## v2.0.0
 
 - Exported more methods.
