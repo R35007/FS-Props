@@ -1,6 +1,6 @@
 {
   "name": "fs-props",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Get fs stats, image dimensions, audio and video metada ",
   "main": "index.js",
   "types": "index.d.ts",
@@ -21,11 +21,16 @@
     "fs-stats",
     "metadata",
     "image",
+    "audio",
+    "video",
     "dimensions",
+    "duration",
     "properties",
-    "fs",
-    "properties",
-    "durations"
+    "size",
+    "folder size",
+    "height",
+    "width",
+    "resolution"
   ],
   "author": {
     "name": "Sivaraman",

@@ -1,13 +1,6 @@
-import { getStats, getImageDetails, getAudioDetails, getVideoDetails } from './utils';
+import { getStats, getImageDetails, getAudioDetails, getVideoDetails, StatsProps, ImageProps, AudioProps, VideoProps } from './utils';
 
-export type Properties = Promise<
-  ReturnType<typeof getStats>
-  & ReturnType<typeof getImageDetails>
-  & ReturnType<typeof getAudioDetails>
-  & ReturnType<typeof getVideoDetails>
->
-
-export const properties = async (fsPath: string): Properties => {
+export const properties = async (fsPath: string): Promise<StatsProps & ImageProps & AudioProps & VideoProps> => {
   const stats = await getStats(fsPath);
   const image: any = stats.mimeType?.includes('image') ? await getImageDetails(fsPath) : {};
   const audio = stats.mimeType?.includes('audio') ? await getAudioDetails(fsPath) : {};

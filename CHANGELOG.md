@@ -1,3 +1,7 @@
+## v1.1.0
+
+ - Added more types definitions.
+
 ## v1.0.3
 
  - Package import issue fixed.

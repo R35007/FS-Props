@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as fsProm from "fs/promises";
 import humanizeDuration from "humanize-duration";
 import imageSize from "image-size";
+import { ISizeCalculationResult } from 'image-size/dist/types/interface';
 import * as mime from "mime";
 import moment from "moment";
 import * as path from "path";
@@ -99,7 +100,6 @@ export const convertBytes = (bytes: number, sizes = ['Bytes', 'KB', 'MB', 'GB', 
   return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i] + (showBytes ? ` (${bytes} bytes)` : "");
 };
 
-
 export const ffprobePromise = async (filePath: string) => {
   const metaData: ffmpeg.FfprobeData = await new Promise((resolve, reject) =>
     ffmpeg.ffprobe(filePath, (err, metadata) => {
@@ -110,7 +110,44 @@ export const ffprobePromise = async (filePath: string) => {
   return metaData;
 };
 
-export const getStats = async (fsPath: string) => {
+export type StatsProps = {
+  fileName: string;
+  baseName: string;
+  extension?: string;
+  directory: string;
+  location: string;
+  size: number;
+  sizePretty: string;
+  type: string;
+  mimeType?: string;
+  isFile: boolean;
+  isDirectory: boolean;
+  containedFiles?: number;
+  containedFolders?: number;
+  contains?: { files: number; folders: number };
+  containsPretty?: string;
+  timestamps: {
+    created: Date;
+    changed: Date;
+    modified: Date;
+    accessed: Date;
+    createdMs: number;
+    changedMs: number;
+    modifiedMs: number;
+    accessedMs: number;
+    createdLocal: string;
+    changedLocal: string;
+    modifiedLocal: string;
+    accessedLocal: string;
+    createdRelative: string;
+    changedRelative: string;
+    modifiedRelative: string;
+    accessedRelative: string;
+  };
+  stats: fs.Stats;
+}
+
+export const getStats = async (fsPath: string): Promise<StatsProps> => {
   const stats = await fsProm.stat(fsPath);
   const isFile = stats.isFile();
   const fileName = path.basename(fsPath);
@@ -146,11 +183,12 @@ export const getStats = async (fsPath: string) => {
   };
 };
 
+
 const getImageDimensions = (metaData: ExifReader.Tags & ExifReader.XmpTags & ExifReader.IccTags) => {
-  const width = metaData.ImageWidth?.value ?? metaData["Image Width"]?.value ?? metaData.PixelXDimension?.value;
-  const height = metaData.ImageLength?.value ?? metaData["Image Height"]?.value ?? metaData.PixelYDimension?.value;
+  const width = metaData.ImageWidth?.value ?? metaData["Image Width"]?.description ?? metaData.PixelXDimension?.value;
+  const height = metaData.ImageLength?.value ?? metaData["Image Height"]?.description ?? metaData.PixelYDimension?.value;
   return {
-    dimensions: typeof width !== "undefined" && typeof height !== "undefined" && `${width} x ${height} pixels`,
+    dimensions: typeof width !== "undefined" && typeof height !== "undefined" ? `${width} x ${height} pixels` : undefined,
     width,
     height,
   };
@@ -160,13 +198,31 @@ const getImageResolution = (metaData: ExifReader.Tags & ExifReader.XmpTags & Exi
   const xResolution = parseInt(metaData.XResolution?.description || "0", 10);
   const yResolution = parseInt(metaData.YResolution?.description || "0", 10);
   return {
-    resolution: typeof xResolution !== "undefined" && typeof yResolution !== "undefined" && `${xResolution} x ${yResolution} Dpi`,
+    resolution: typeof xResolution !== "undefined" && typeof yResolution !== "undefined" ? `${xResolution} x ${yResolution} Dpi` : undefined,
     xResolution,
     yResolution,
   };
 };
 
-export const getImageDetails = async (imagePath: string) => {
+export type ImageProps = {
+  isImage?: boolean;
+  orientation?: string | number;
+  bitDepth?: string;
+  colorType?: string;
+  subSampling?: string;
+  compression?: string;
+  filter?: string;
+  resourceURL?: string;
+  resolution?: string;
+  xResolution?: number;
+  yResolution?: number;
+  dimensions?: string;
+  width?: string | number;
+  height?: string | number;
+  metaData?: ExifReader.Tags & ExifReader.XmpTags & ExifReader.IccTags | ISizeCalculationResult
+}
+
+export const getImageDetails = async (imagePath: string): Promise<ImageProps> => {
   try {
     const metaData = await ExifReader.load(imagePath);
     return {
@@ -187,19 +243,35 @@ export const getImageDetails = async (imagePath: string) => {
       const metaData = imageSize(imagePath);
       return {
         isImage: true,
-        dimensions: typeof metaData.width !== "undefined" && typeof metaData.height !== "undefined" && `${metaData.width} x ${metaData.height} pixels`,
+        dimensions: typeof metaData.width !== "undefined" && typeof metaData.height !== "undefined" ? `${metaData.width} x ${metaData.height} pixels` : undefined,
         height: metaData.height,
         width: metaData.width,
         orientation: metaData.orientation,
         metaData,
       };
     } catch (err) {
-      return {};
+      return {} as ImageProps;
     }
   }
 };
 
-export const getAudioDetails = async (audioPath: string) => {
+export type AudioProps = {
+  isAudio?: boolean;
+  title?: string | number;
+  album?: string | number;
+  artist?: string | number;
+  composer?: string | number;
+  genre?: string | number;
+  year?: string | number;
+  duration?: number;
+  durationPretty?: string;
+  bitRate?: number;
+  bitRatePretty?: string;
+  channels?: string | number;
+  metaData?: ffmpeg.FfprobeData;
+}
+
+export const getAudioDetails = async (audioPath: string): Promise<AudioProps> => {
   try {
     const metaData = await ffprobePromise(audioPath);
     const audio = metaData.streams.find(st => st.codec_type === 'audio') || {} as ffmpeg.FfprobeStream;
@@ -223,11 +295,28 @@ export const getAudioDetails = async (audioPath: string) => {
       metaData,
     };
   } catch (error: any) {
-    return {};
+    return {} as AudioProps;
   }
 };
 
-export const getVideoDetails = async (videoPath: string) => {
+export type VideoProps = {
+  isVideo?: boolean;
+  dimensions?: string;
+  width?: number;
+  height?: number;
+  resolution?: string;
+  duration?: number;
+  durationPretty?: string;
+  bitRate?: number;
+  bitRatePretty?: string;
+  frameRate?: number;
+  frameRatePretty?: string;
+  framesPerSecond?: string;
+  ratio?: string;
+  metaData?: ffmpeg.FfprobeData;
+}
+
+export const getVideoDetails = async (videoPath: string): Promise<VideoProps> => {
   try {
     const metaData = await ffprobePromise(videoPath);
     const video = metaData.streams.find(st => st.codec_type === 'video') || {} as ffmpeg.FfprobeStream;
@@ -255,6 +344,6 @@ export const getVideoDetails = async (videoPath: string) => {
       metaData,
     };
   } catch (error: any) {
-    return {};
+    return {} as VideoProps;
   }
 };
