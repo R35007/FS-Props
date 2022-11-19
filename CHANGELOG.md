@@ -1,3 +1,7 @@
+## v1.1.1
+
+ - Added `@types/fluent-ffmpeg` to dev dependencies.
+
 ## v1.1.0
 
  - Added more types definitions.
