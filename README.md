@@ -21,14 +21,14 @@ FS-Props is a Javascript library that helps to parse image, audio, video or any 
 ```js
 const fp = require("fs-props");
 
-fp.properties("/path/to/file/or/folder").then((properties) => {
+fp.props("/path/to/file/or/folder").then((properties) => {
   console.log(properties);
 });
 
 // using async and await
 
 (async () => {
-  const properties = await fp.properties("/path/to/file/or/folder");
+  const properties = await fp.props("/path/to/file/or/folder");
   console.log(properties);
 })();
 ```
