@@ -3,8 +3,7 @@ import * as ffmpeg from 'fluent-ffmpeg';
 import { FfprobeStream } from 'fluent-ffmpeg';
 import * as fs from "fs";
 import * as fsProm from "fs/promises";
-import * as humanize from "humanize-duration";
-import { Options } from "humanize-duration";
+import humanize, { Options } from "humanize-duration";
 import imageSize from "image-size";
 import * as mime from "mime";
 import moment from "moment";
@@ -370,7 +369,8 @@ export const imageProps = async (imagePath: string): Promise<ImageProps> => {
       resourceURL: metaData.ResourceURL?.description,
       metaData,
     };
-  } catch (err) {
+  } catch (error: any) {
+    console.error(error.message);
     try {
       const metaData = imageSize(imagePath);
       return {
@@ -381,7 +381,8 @@ export const imageProps = async (imagePath: string): Promise<ImageProps> => {
         orientation: metaData.orientation,
         metaData,
       };
-    } catch (err) {
+    } catch (error: any) {
+      console.error(error.message);
       return {} as ImageProps;
     }
   }
@@ -423,6 +424,7 @@ export const audioProps = async (audioPath: string): Promise<AudioProps> => {
       metaData,
     };
   } catch (error: any) {
+    console.error(error.message);
     return {} as AudioProps;
   }
 };
@@ -466,6 +468,7 @@ export const videoProps = async (videoPath: string): Promise<VideoProps> => {
       metaData,
     };
   } catch (error: any) {
+    console.error(error.message);
     return {} as VideoProps;
   }
 };
