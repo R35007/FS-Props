@@ -3,7 +3,7 @@ import * as ffmpeg from 'fluent-ffmpeg';
 import { FfprobeStream } from 'fluent-ffmpeg';
 import * as fs from "fs";
 import * as fsProm from "fs/promises";
-import humanize from "humanize-duration";
+import humanize, { Options } from "humanize-duration";
 import imageSize from "image-size";
 import * as mime from "mime";
 import moment from "moment";
@@ -197,7 +197,7 @@ export const ffprobePromise = async (filePath: string) => {
  * @param {number} durationInMilliSeconds - number - The duration in milliseconds
  * @param options - [humanize-duration options](https://www.npmjs.com/package/humanize-duration)
  */
-export const humanizeDuration = (durationInMilliSeconds?: number | string, options: humanize.Options = {}) => {
+export const humanizeDuration = (durationInMilliSeconds?: number | string, options: Options = {}) => {
   if (typeof durationInMilliSeconds === "undefined") return undefined;
 
   const duration = typeof durationInMilliSeconds === 'number' ? durationInMilliSeconds : parseFloat(durationInMilliSeconds);
