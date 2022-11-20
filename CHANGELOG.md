@@ -1,3 +1,7 @@
+## v3.0.1
+
+- Package build issue fix
+
 ## v3.0.0
 
 - Renamed `fp.properties()` to `fp.props()`
