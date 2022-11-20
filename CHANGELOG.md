@@ -1,3 +1,11 @@
+## v3.0.0
+
+- Renamed `fp.properties()` to `fp.props()`
+- Renamed `fp.stats()` to `fp.stat()`
+- Renamed `fp.deepStats()` to `fp.deepStat()`
+- Added more methods
+- Improved CLI
+
 ## v2.0.1
 
 - Package build issue fix

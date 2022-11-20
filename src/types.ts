@@ -1,6 +1,6 @@
 import { ISizeCalculationResult } from 'image-size/dist/types/interface';
 import { FfprobeData } from 'fluent-ffmpeg';
-import { Stats } from 'fs';
+import { Stats, Dirent } from 'fs';
 import { Tags, XmpTags, IccTags } from "exifreader";
 
 export type StatsProps = {
@@ -15,28 +15,27 @@ export type StatsProps = {
   mimeType?: string;
   isFile: boolean;
   isDirectory: boolean;
+  children: Dirent[];
   containedFiles?: number;
   containedFolders?: number;
   contains?: { files: number; folders: number };
   containsPretty?: string;
-  timestamps: {
-    created: Date;
-    changed: Date;
-    modified: Date;
-    accessed: Date;
-    createdMs: number;
-    changedMs: number;
-    modifiedMs: number;
-    accessedMs: number;
-    createdLocal: string;
-    changedLocal: string;
-    modifiedLocal: string;
-    accessedLocal: string;
-    createdRelative: string;
-    changedRelative: string;
-    modifiedRelative: string;
-    accessedRelative: string;
-  };
+  created: Date;
+  changed: Date;
+  modified: Date;
+  accessed: Date;
+  createdMs: number;
+  changedMs: number;
+  modifiedMs: number;
+  accessedMs: number;
+  createdLocal: string;
+  changedLocal: string;
+  modifiedLocal: string;
+  accessedLocal: string;
+  createdRelative: string;
+  changedRelative: string;
+  modifiedRelative: string;
+  accessedRelative: string;
   stats: Stats;
 }
 
@@ -67,6 +66,7 @@ export type AudioProps = {
   genre?: string | number;
   year?: string | number;
   duration?: number;
+  durationMs?: number;
   durationPretty?: string;
   bitRate?: number;
   bitRatePretty?: string;
@@ -81,6 +81,7 @@ export type VideoProps = {
   height?: number;
   resolution?: string;
   duration?: number;
+  durationMs?: number;
   durationPretty?: string;
   bitRate?: number;
   bitRatePretty?: string;
@@ -90,3 +91,5 @@ export type VideoProps = {
   ratio?: string;
   metaData?: FfprobeData;
 }
+
+export type Properties = StatsProps & ImageProps & AudioProps & VideoProps;

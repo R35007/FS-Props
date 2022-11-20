@@ -31,17 +31,20 @@ fp.properties("/path/to/file/or/folder").then((properties) => {
   const properties = await fp.properties("/path/to/file/or/folder");
   console.log(properties);
 })();
-
-// All available promise methods
-
-fp.stats(""); // To get only folder or file stats
-fp.deepStats(""); // To get a list of all nested folder and file stats
-fp.imageProperties(""); // Returns only image properties
-fp.audioProperties(""); // Returns only audio properties
-fp.videoProperties(""); // Returns only video properties
-
-fp.properties(""); // Returns stats, audio, video, image properties
 ```
+
+These are the following useful methods
+
+- `fp.props()` - Get all properties like file or folder sizes, timestamps, image or video dimensions, audio or video durations etc...
+- `fp.stat()`, `fp.statSync()` - Get only file or folder stats. This will not return image or audio or video properties.
+- `fp.deepStat()`, `fp.deepStatSync()` - Get stat list of all the files in a directory and its subdirectories
+- `fp.timeStamp()`, `fp.timeStampSync()` - It returns an object with the file's creation, change, modification, and access timestamps.
+- `fp.imageProps()` - It returns image properties like dimensions, resolution, width, height etc.. If the given file path is a image file.
+- `fp.audioProps()` - It returns audio properties like artist, album, composer, durations etc.. If the given file path is a audio file.
+- `fp.videoProps()` - It returns video properties like dimensions, durations, width, height etc.. If the given file path is a video file.
+- `fp.ffprobePromise()` - It takes a file path as a string, and returns a promise that resolves to the metadata of the audio or video file
+- `fp.convertBytes()` - It takes a number of bytes and returns a string with the number of bytes in a human readable format.
+- `fp.humanizeDuration()` - It takes a duration in milliseconds and returns a human readable string.
 
 ### CLI:
 
@@ -67,16 +70,9 @@ fs-props "/path/to/file/or/folder" "/path/to/save/properties.json"
   "containedFiles": 5622,
   "containedFolders": 623,
   "containsPretty": "5622 Files, 623 Folders",
-  "contains": {
-    "files": 5622,
-    "folders": 623
-  },
-  "timestamps": {
-    /*...*/
-  },
-  "stats": {
-    /* ... fs stats */
-  }
+  "contains": { "files": 5622, "folders": 623 },
+  /* ... timestamp properties */
+  "stats": { /* ... fs stats */ }
 }
 ```
 
@@ -111,24 +107,22 @@ This timestamp object will be there for any file or folder
 ```jsonc
 {
   /* ... File or Folder properties */
-  "timestamps": {
-    "created": "2022-11-18T05:19:45.711Z",
-    "changed": "2022-11-18T16:15:52.365Z",
-    "modified": "2022-11-18T16:15:52.365Z",
-    "accessed": "2022-11-18T17:10:42.824Z",
-    "createdMs": 1668748785710.9785,
-    "changedMs": 1668788152365.1013,
-    "modifiedMs": 1668788152365.1013,
-    "accessedMs": 1668791442823.701,
-    "createdLocal": "18/11/2022, 10:49:45 am",
-    "changedLocal": "18/11/2022, 9:45:52 pm",
-    "modifiedLocal": "18/11/2022, 9:45:52 pm",
-    "accessedLocal": "18/11/2022, 10:40:42 pm",
-    "createdRelative": "12 hours ago",
-    "changedRelative": "an hour ago",
-    "modifiedRelative": "an hour ago",
-    "accessedRelative": "a few seconds ago"
-  }
+  "created": "2022-11-18T05:19:45.711Z",
+  "changed": "2022-11-18T16:15:52.365Z",
+  "modified": "2022-11-18T16:15:52.365Z",
+  "accessed": "2022-11-18T17:10:42.824Z",
+  "createdMs": 1668748785710.9785,
+  "changedMs": 1668788152365.1013,
+  "modifiedMs": 1668788152365.1013,
+  "accessedMs": 1668791442823.701,
+  "createdLocal": "18/11/2022, 10:49:45 am",
+  "changedLocal": "18/11/2022, 9:45:52 pm",
+  "modifiedLocal": "18/11/2022, 9:45:52 pm",
+  "accessedLocal": "18/11/2022, 10:40:42 pm",
+  "createdRelative": "12 hours ago",
+  "changedRelative": "an hour ago",
+  "modifiedRelative": "an hour ago",
+  "accessedRelative": "a few seconds ago"
 }
 ```
 
