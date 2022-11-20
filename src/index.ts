@@ -3,7 +3,7 @@ import * as ffmpeg from 'fluent-ffmpeg';
 import { FfprobeStream } from 'fluent-ffmpeg';
 import * as fs from "fs";
 import * as fsProm from "fs/promises";
-import humanize, { Options } from "humanize-duration";
+import humanize from "humanize-duration";
 import imageSize from "image-size";
 import * as mime from "mime";
 import moment from "moment";
@@ -197,14 +197,14 @@ export const ffprobePromise = async (filePath: string) => {
  * @param {number} durationInMilliSeconds - number - The duration in milliseconds
  * @param options - [humanize-duration options](https://www.npmjs.com/package/humanize-duration)
  */
-export const humanizeDuration = (durationInMilliSeconds?: number | string, options: Options = {}) => {
+export const humanizeDuration = (durationInMilliSeconds?: number | string, options: object = {}) => {
   if (typeof durationInMilliSeconds === "undefined") return undefined;
 
   const duration = typeof durationInMilliSeconds === 'number' ? durationInMilliSeconds : parseFloat(durationInMilliSeconds);
   return humanize(duration, { maxDecimalPoints: 2, ...options });
 }
 
-const getImageDimensions = (metaData: ExifReader.Tags & ExifReader.XmpTags & ExifReader.IccTags) => {
+const getImageDimensions = (metaData: Awaited<ReturnType<typeof ExifReader.load>>) => {
   const width = metaData.ImageWidth?.value ?? metaData["Image Width"]?.description ?? metaData.PixelXDimension?.value;
   const height = metaData.ImageLength?.value ?? metaData["Image Height"]?.description ?? metaData.PixelYDimension?.value;
   return {
@@ -214,11 +214,11 @@ const getImageDimensions = (metaData: ExifReader.Tags & ExifReader.XmpTags & Exi
   };
 };
 
-const getImageResolution = (metaData: ExifReader.Tags & ExifReader.XmpTags & ExifReader.IccTags) => {
+const getImageResolution = (metaData: Awaited<ReturnType<typeof ExifReader.load>>) => {
   const xResolution = parseInt(metaData.XResolution?.description || "0", 10);
   const yResolution = parseInt(metaData.YResolution?.description || "0", 10);
   return {
-    resolution: typeof xResolution !== "undefined" && typeof yResolution !== "undefined" ? `${xResolution} x ${yResolution} Dpi` : undefined,
+    resolution: xResolution || yResolution ? `${xResolution} x ${yResolution} Dpi` : undefined,
     xResolution,
     yResolution,
   };

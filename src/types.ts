@@ -1,7 +1,6 @@
-import { ISizeCalculationResult } from 'image-size/dist/types/interface';
 import { FfprobeData } from 'fluent-ffmpeg';
 import { Stats, Dirent } from 'fs';
-import { Tags, XmpTags, IccTags } from "exifreader";
+import * as ExifReader from "exifreader";
 
 export type StatsProps = {
   fileName: string;
@@ -39,6 +38,14 @@ export type StatsProps = {
   stats: Stats;
 }
 
+interface ISize {
+  width: number | undefined;
+  height: number | undefined;
+  orientation?: number;
+  type?: string;
+  images?: ISize[];
+}
+
 export type ImageProps = {
   isImage?: boolean;
   orientation?: string | number;
@@ -54,7 +61,7 @@ export type ImageProps = {
   dimensions?: string;
   width?: string | number;
   height?: string | number;
-  metaData?: Tags & XmpTags & IccTags | ISizeCalculationResult
+  metaData?: Awaited<ReturnType<typeof ExifReader.load>> | ISize
 }
 
 export type AudioProps = {
