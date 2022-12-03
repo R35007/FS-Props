@@ -11,8 +11,12 @@ import * as path from "path";
 
 import { AudioProps, ImageProps, Properties, StatsProps, VideoProps } from './types';
 
-const ffprobe = require('@ffprobe-installer/ffprobe');
-ffmpeg.setFfprobePath(ffprobe.path);
+try {
+  const ffprobe = require('node-ffprobe-installer');
+  ffmpeg.setFfprobePath(ffprobe.path);
+} catch (err) {
+  console.error(err);
+}
 
 const getSizeAndContains = async (fsPath: string) => {
   const stats = await fsProm.stat(fsPath);
@@ -64,6 +68,14 @@ const getSizeAndContainsSync = (fsPath: string) => {
 
   return { size: dirSize, contains };
 };
+
+/**
+ * It sets the path to the ffprobe executable
+ * @param {string} ffprobePath - The path to the ffprobe binary.
+ */
+export const setFfprobePath = (ffprobePath: string) => {
+  ffmpeg.setFfprobePath(ffprobePath);
+}
 
 /**
  * It returns an promise object with the file's creation, change, modification, and access times, as well as

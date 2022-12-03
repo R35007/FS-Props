@@ -1,3 +1,8 @@
+## v3.1.0
+
+- Added `fp.setFfprobePath()` - Helps to set a custom ffmpeg executable path
+- Prevented ffmpeg error if path is not found on multiple environments like mac, linux, windows.
+  
 ## v3.0.5
 
 - Package build issue fix
