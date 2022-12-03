@@ -11,9 +11,11 @@ import * as path from "path";
 
 import { AudioProps, ImageProps, Properties, StatsProps, VideoProps } from './types';
 
+let _ffprobePath;
 try {
-  const ffprobe = require('node-ffprobe-installer');
-  ffmpeg.setFfprobePath(ffprobe.path);
+  let ffprobe = require('@ffprobe-installer/ffprobe');
+  _ffprobePath = ffprobe.path;
+  ffmpeg.setFfprobePath(_ffprobePath);
 } catch (err) {
   console.error(err);
 }
@@ -68,6 +70,8 @@ const getSizeAndContainsSync = (fsPath: string) => {
 
   return { size: dirSize, contains };
 };
+
+export const ffprobePath = _ffprobePath;
 
 /**
  * It sets the path to the ffprobe executable

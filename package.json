@@ -1,6 +1,6 @@
 {
   "name": "fs-props",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Get fs stats, image dimensions, audio and video metada ",
   "main": "index.js",
   "types": "index.d.ts",
@@ -48,6 +48,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "@ffprobe-installer/ffprobe": "^1.4.1",
     "@types/fluent-ffmpeg": "^2.1.20",
     "exifreader": "^4.8.1",
     "fluent-ffmpeg": "^2.1.2",
@@ -55,7 +56,6 @@
     "image-size": "^1.0.2",
     "mime": "^3.0.0",
     "moment": "^2.29.4",
-    "node-ffprobe-installer": "^1.2.3",
     "yargs": "^17.6.2"
   }
 }
