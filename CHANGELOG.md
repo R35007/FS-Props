@@ -1,3 +1,7 @@
+## v3.3.0
+
+- Added `filesCount`, `foldersCount` and `filesAndFoldersPrettyCount` to the `fsProps.stat` and `fsProps.statSync` methods.
+  
 ## v3.2.0
 
 - Added `fp.setFfprobePath()` - Helps to set a custom ffmpeg executable path
